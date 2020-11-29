@@ -49,9 +49,10 @@ public class EmpSalaryService {
 
 	@Autowired
 	private CsvHelper csvHelper;
-	
+
 	/**
 	 * Method to process and persist the valid csv data as EmpSalary
+	 * 
 	 * @param file
 	 * @throws FileProcessingException
 	 */
@@ -62,9 +63,10 @@ public class EmpSalaryService {
 		empSalaryRepo.saveAll(empSalaryEntityObj);
 
 	}
-	
+
 	/**
 	 * Method to create/save new employee salary information
+	 * 
 	 * @param empSalary
 	 * @return EmpSalary
 	 * @throws InvalidRequestException
@@ -76,39 +78,43 @@ public class EmpSalaryService {
 			return saveEmpSalaryInfo(empSalary);
 		}
 	}
-	
+
 	/**
 	 * Method to save/update employee salary information
+	 * 
 	 * @param empSalary
 	 * @return
 	 */
 	public EmpSalary saveEmpSalaryInfo(EmpSalary empSalary) {
-		if (checkEmpRecordExistsByLoginNotById(empSalary.getLogin(),empSalary.getId())) {
+		if (checkEmpRecordExistsByLoginNotById(empSalary.getLogin(), empSalary.getId())) {
 			throw new InvalidRequestException(loginIdExistsMsg);
 		} else {
 			return empSalaryRepo.save(empSalary);
 		}
 	}
-	
+
 	/**
 	 * Method to delete employee salary information
+	 * 
 	 * @param id
 	 */
 	public void deleteEmpSalaryInfo(String id) {
 		empSalaryRepo.deleteById(id);
 	}
-	
+
 	/**
 	 * Method to retrieve specific employee salary information
+	 * 
 	 * @param id
 	 * @return
 	 */
 	public Optional<EmpSalary> getEmpSalaryInfo(String id) {
 		return empSalaryRepo.findById(id);
 	}
-	
+
 	/**
 	 * Method to retrieve all employee salary information based on criteria
+	 * 
 	 * @param recordsCriteria
 	 * @return
 	 */
@@ -118,8 +124,8 @@ public class EmpSalaryService {
 			Pageable pageableObj = buildPaginationCriteria(recordsCriteria.getOffset(), recordsCriteria.getLimit(),
 					buildSortOrder(recordsCriteria.getSortCriteria()));
 			EmpSalarySpecification<EmpSalary> empSalarySpecification = new EmpSalarySpecification<>();
-			empSalarySpecification.add(
-					new FilterCriteria(Field.salary, recordsCriteria.getMinSalary(), FilterOperation.GREATER_THAN_EQUAL));
+			empSalarySpecification.add(new FilterCriteria(Field.salary, recordsCriteria.getMinSalary(),
+					FilterOperation.GREATER_THAN_EQUAL));
 			empSalarySpecification
 					.add(new FilterCriteria(Field.salary, recordsCriteria.getMaxSalary(), FilterOperation.LESS_THAN));
 			if (recordsCriteria.getFilterCriteria() != null) {
@@ -141,9 +147,8 @@ public class EmpSalaryService {
 	}
 
 	private List<Order> buildSortOrder(SortCriteria sortCriteria) {
-		return sortCriteria != null
-				? Arrays.asList(
-						new Order(Direction.fromString(sortCriteria.getSortOrder().name()), sortCriteria.getSortField().name()))
+		return sortCriteria != null ? Arrays.asList(
+				new Order(Direction.fromString(sortCriteria.getSortOrder().name()), sortCriteria.getSortField().name()))
 				: null;
 	}
 
@@ -177,7 +182,7 @@ public class EmpSalaryService {
 		return empSalaryRepo.existsById(id);
 	}
 
-	private boolean checkEmpRecordExistsByLoginNotById(String login,String id) {
-		return empSalaryRepo.existsByLoginNotById(login,id);
+	private boolean checkEmpRecordExistsByLoginNotById(String login, String id) {
+		return empSalaryRepo.existsByLoginNotById(login, id);
 	}
 }
