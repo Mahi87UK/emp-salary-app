@@ -466,6 +466,30 @@ public class EmpSalaryControllerITTest {
 
 	}
 	
+	@Test
+	public void givenInValidSalaryInNagative_whencreateEmpSalInfo_thenStatus400() throws Exception {
+		String validData = "{\"id\": \"id1111\",\"name\": \"name1111\",\"login\": \"login100\",\"salary\": -10.50,\"startDate\": \"2001-11-16\"}";
+		mvc.perform(MockMvcRequestBuilders.post("/users").content(validData).contentType(MediaType.APPLICATION_JSON))
+				.andExpect(MockMvcResultMatchers.status().isBadRequest())
+				.andExpect(MockMvcResultMatchers.jsonPath("$.message", Matchers.is("Invalid salary")));
+	}
+	
+	@Test
+	public void givenMissingValues_whencreateEmpSalInfo_thenStatus400() throws Exception {
+		String validData = "{\"id\": \"\",\"name\": \"name1111\",\"login\": \"login100\",\"salary\": 10.50,\"startDate\": \"2001-11-16\"}";
+		mvc.perform(MockMvcRequestBuilders.post("/users").content(validData).contentType(MediaType.APPLICATION_JSON))
+				.andExpect(MockMvcResultMatchers.status().isBadRequest())
+				.andExpect(MockMvcResultMatchers.jsonPath("$.message", Matchers.containsString("field is required")));
+	}
+	
+	@Test
+	public void givenMissingAttributes_whencreateEmpSalInfo_thenStatus400() throws Exception {
+		String validData = "{\"login\": \"login100\",\"salary\": 10.50,\"startDate\": \"2001-11-16\"}";
+		mvc.perform(MockMvcRequestBuilders.post("/users").content(validData).contentType(MediaType.APPLICATION_JSON))
+				.andExpect(MockMvcResultMatchers.status().isBadRequest())
+				.andExpect(MockMvcResultMatchers.jsonPath("$.message", Matchers.containsString("field is required")));
+	}
+	
 	private void createDummyRecords(int count) {
 		List<EmpSalary> empSalList = new ArrayList<EmpSalary>();
 		for (int i = 1; i <= count; i++) {

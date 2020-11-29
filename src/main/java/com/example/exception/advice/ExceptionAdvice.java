@@ -60,7 +60,6 @@ public class ExceptionAdvice {
 
 	@ExceptionHandler(value = BindException.class)
 	public ResponseEntity<ResponseMessage> handleDataBindException(BindException e) {
-
 		return ResponseGenerator.buildResponse(e.getMessage(), HttpStatus.BAD_REQUEST);
 	}
 

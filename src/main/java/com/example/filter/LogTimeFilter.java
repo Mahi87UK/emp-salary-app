@@ -26,9 +26,7 @@ public class LogTimeFilter implements Filter {
 	            chain.doFilter(request, response);
 	        } finally {
 	            time = System.currentTimeMillis() - time;
-	            log.info("{}: {} ms ", ((HttpServletRequest) request).getRequestURI(),  time);
-	        }
-       
-		
+	            log.trace("{}: {} ms ", ((HttpServletRequest) request).getRequestURI(),  time);
+	        }	
 	}
 }
