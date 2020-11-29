@@ -23,6 +23,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import com.example.criteria.Field;
 import com.example.criteria.FilterCriteria;
 import com.example.criteria.FilterOperation;
 import com.example.criteria.RecordsCriteria;
@@ -65,7 +66,8 @@ public class EmpSalaryServiceTest {
 		// given
 		empSalaryObj = new EmpSalary("id1", "login1", "name1", 10.0, LocalDate.now());
 		Mockito.when(empSalaryRepo.existsById(empSalaryObj.getId())).thenReturn(false);
-		Mockito.when(empSalaryRepo.existsByLoginNotById(empSalaryObj.getLogin(),empSalaryObj.getId())).thenReturn(false);
+		Mockito.when(empSalaryRepo.existsByLoginNotById(empSalaryObj.getLogin(), empSalaryObj.getId()))
+				.thenReturn(false);
 		Mockito.when(empSalaryRepo.save(empSalaryObj)).thenReturn(empSalaryObj);
 
 		// when
@@ -82,7 +84,8 @@ public class EmpSalaryServiceTest {
 
 		Mockito.when(empSalaryRepo.existsById(empSalaryObj.getId())).thenReturn(true);
 
-		Mockito.when(empSalaryRepo.existsByLoginNotById(empSalaryObj.getLogin(),empSalaryObj.getId())).thenReturn(false);
+		Mockito.when(empSalaryRepo.existsByLoginNotById(empSalaryObj.getLogin(), empSalaryObj.getId()))
+				.thenReturn(false);
 
 		// when
 		assertThrows(InvalidRequestException.class, () -> {
@@ -100,13 +103,14 @@ public class EmpSalaryServiceTest {
 
 		Mockito.when(empSalaryRepo.existsById(empSalaryObj.getId())).thenReturn(false);
 
-		Mockito.when(empSalaryRepo.existsByLoginNotById(empSalaryObj.getLogin(),empSalaryObj.getId())).thenReturn(true);
+		Mockito.when(empSalaryRepo.existsByLoginNotById(empSalaryObj.getLogin(), empSalaryObj.getId()))
+				.thenReturn(true);
 
 		// when
 		// then throw Invalid request exception
-		assertThrows(InvalidRequestException.class, () -> {empSalaryService.createEmpSalaryInfo(empSalaryObj);});
-
-		
+		assertThrows(InvalidRequestException.class, () -> {
+			empSalaryService.createEmpSalaryInfo(empSalaryObj);
+		});
 
 	}
 
@@ -115,7 +119,8 @@ public class EmpSalaryServiceTest {
 		// given
 		empSalaryObj = new EmpSalary("id1", "login1", "name1", 10.0, LocalDate.now());
 		Mockito.when(empSalaryRepo.existsById(empSalaryObj.getId())).thenReturn(false);
-		Mockito.when(empSalaryRepo.existsByLoginNotById(empSalaryObj.getLogin(),empSalaryObj.getId())).thenReturn(false);
+		Mockito.when(empSalaryRepo.existsByLoginNotById(empSalaryObj.getLogin(), empSalaryObj.getId()))
+				.thenReturn(false);
 		Mockito.when(empSalaryRepo.save(empSalaryObj)).thenReturn(empSalaryObj);
 
 		// when
@@ -179,7 +184,7 @@ public class EmpSalaryServiceTest {
 		pojoList.add(csvPojo);
 		Mockito.when(csvHelper.csvToEmpSalay(uploadFile)).thenReturn(pojoList);
 		Mockito.when(empSalaryRepo.existsById(empSalaryObj.getId())).thenReturn(false);
-		
+
 		// when
 		empSalaryService.processAndSaveCsvFile(uploadFile);
 		// then should be processed without any exception & save record
@@ -274,7 +279,7 @@ public class EmpSalaryServiceTest {
 		// Given
 		RecordsCriteria recordsCriteria = new RecordsCriteria();
 		SortCriteria sortCriteria = new SortCriteria();
-		FilterCriteria filterCriteria = new FilterCriteria("id", "id1", FilterOperation.MATCH);
+		FilterCriteria filterCriteria = new FilterCriteria(Field.id, "id1", FilterOperation.MATCH);
 		recordsCriteria.setFilterCriteria(filterCriteria);
 		recordsCriteria.setSortCriteria(sortCriteria);
 		recordsCriteria.setLimit(1);

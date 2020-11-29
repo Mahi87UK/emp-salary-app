@@ -24,7 +24,7 @@ public class CsvHelper {
 	private CommentLineFilter commentLineFilter = new CommentLineFilter();
 
 	public static String TYPE = "text/csv";
-	static String[] HEADERs = { "Id", "Title", "Description", "Published" };
+	
 
 	public static boolean hasCSVFormat(MultipartFile file) {
 		String fileType = file.getContentType();
