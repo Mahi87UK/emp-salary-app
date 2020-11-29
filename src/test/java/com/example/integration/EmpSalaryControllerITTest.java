@@ -134,7 +134,6 @@ public class EmpSalaryControllerITTest {
 				.andExpect(MockMvcResultMatchers.status().isOk())
 				.andExpect(MockMvcResultMatchers.jsonPath("$.results", Matchers.hasSize(5)))
 				.andExpect(MockMvcResultMatchers.jsonPath("$.results[0].id", Matchers.is("id5")));
-		;
 	}
 
 	@Test
@@ -149,7 +148,7 @@ public class EmpSalaryControllerITTest {
 				.contentType(MediaType.APPLICATION_JSON)).andExpect(MockMvcResultMatchers.status().isOk())
 				.andExpect(MockMvcResultMatchers.jsonPath("$.results", Matchers.hasSize(1)))
 				.andExpect(MockMvcResultMatchers.jsonPath("$.results[0].name", Matchers.is("name1")));
-		;
+		
 	}
 
 	@Test
@@ -419,7 +418,54 @@ public class EmpSalaryControllerITTest {
 						MockMvcResultMatchers.jsonPath("$.message", Matchers.containsString("no value was provided")));
 
 	}
+	
+	@Test
+	public void givenValidCsvFileWithNonEnglishChars_whenUploadFile_thenStatus200() throws Exception {
+		cleanUpRecords();
+		MockMultipartFile file = createFileToUpload("validNonEnglishChar.csv", "text/csv");
 
+		mvc.perform(MockMvcRequestBuilders.multipart("/users/upload").file(file).characterEncoding("UTF-8"))
+				.andExpect(MockMvcResultMatchers.status().isOk())
+				.andExpect(MockMvcResultMatchers.jsonPath("$.message", Matchers.is("File processed successfully")));
+
+	}
+	
+	@Test
+	public void givenInValidSalaryWithNegativeValueInCsvFile_whenUploadFile_thenStatus400() throws Exception {
+		cleanUpRecords();
+		MockMultipartFile file = createFileToUpload("invalid-salary3.csv", "text/csv");
+
+		mvc.perform(MockMvcRequestBuilders.multipart("/users/upload").file(file).characterEncoding("UTF-8"))
+				.andExpect(MockMvcResultMatchers.status().isBadRequest())
+				.andExpect(MockMvcResultMatchers.jsonPath("$.message", Matchers.containsString("Invalid salary")));
+
+	}
+	
+	@Test
+	public void givenWithAdditionalInvalidFilterCriteria_whenGetAllEmpSalInfo_thenStatus400()
+			throws Exception {
+		
+		createDummyRecords(20);
+		mvc.perform(MockMvcRequestBuilders.get("/users").param("limit", "5").param("minSalary", "0.0")
+				.param("maxSalary", "50000000.00").param("sortCriteria.sortField", "id")
+				.param("sortCriteria.sortOrder", "desc").param("filterCriteria.key", "id")
+				.param("filterCriteria.operation", "INVALID").param("filterCriteria.value", "2")
+				.contentType(MediaType.APPLICATION_JSON)).andExpect(MockMvcResultMatchers.status().isBadRequest());
+
+	}
+	
+	@Test
+	public void givenWithInvalidSortOrder_whenGetAllEmpSalInfo_thenStatus400()
+			throws Exception {
+		
+		createDummyRecords(20);
+		mvc.perform(MockMvcRequestBuilders.get("/users").param("limit", "5").param("minSalary", "0.0")
+				.param("maxSalary", "50000000.00").param("sortCriteria.sortField", "id")
+				.param("sortCriteria.sortOrder", "INVALID")
+				.contentType(MediaType.APPLICATION_JSON)).andExpect(MockMvcResultMatchers.status().isBadRequest());
+
+	}
+	
 	private void createDummyRecords(int count) {
 		List<EmpSalary> empSalList = new ArrayList<EmpSalary>();
 		for (int i = 1; i <= count; i++) {

@@ -3,8 +3,6 @@ package com.example.exception.advice;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import javax.xml.bind.DataBindingException;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -12,14 +10,11 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.boot.context.properties.bind.BindException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
-
 
 import com.example.exception.FileProcessingException;
 import com.example.exception.InvalidRequestException;
 import com.example.pojo.ResponseMessage;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.opencsv.exceptions.CsvException;
 
 @ExtendWith(SpringExtension.class)

@@ -21,6 +21,7 @@ import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.criteria.Field;
 import com.example.criteria.FilterCriteria;
 import com.example.criteria.FilterOperation;
 import com.example.criteria.RecordsCriteria;
@@ -88,9 +89,9 @@ public class EmpSalaryService {
 					buildSortOrder(recordsCriteria.getSortCriteria()));
 			EmpSalarySpecification<EmpSalary> empSalarySpecification = new EmpSalarySpecification<>();
 			empSalarySpecification.add(
-					new FilterCriteria("salary", recordsCriteria.getMinSalary(), FilterOperation.GREATER_THAN_EQUAL));
+					new FilterCriteria(Field.salary, recordsCriteria.getMinSalary(), FilterOperation.GREATER_THAN_EQUAL));
 			empSalarySpecification
-					.add(new FilterCriteria("salary", recordsCriteria.getMaxSalary(), FilterOperation.LESS_THAN));
+					.add(new FilterCriteria(Field.salary, recordsCriteria.getMaxSalary(), FilterOperation.LESS_THAN));
 			if (recordsCriteria.getFilterCriteria() != null) {
 				empSalarySpecification.add(recordsCriteria.getFilterCriteria());
 			}
@@ -112,7 +113,7 @@ public class EmpSalaryService {
 	private List<Order> buildSortOrder(SortCriteria sortCriteria) {
 		return sortCriteria != null
 				? Arrays.asList(
-						new Order(Direction.fromString(sortCriteria.getSortOrder()), sortCriteria.getSortField()))
+						new Order(Direction.fromString(sortCriteria.getSortOrder().name()), sortCriteria.getSortField().name()))
 				: null;
 	}
 

@@ -1,36 +1,33 @@
 package com.example.criteria;
 
-import javax.validation.constraints.NotBlank;
+
+import javax.validation.constraints.NotNull;
 
 public class SortCriteria {
 	
-	@NotBlank(message = "SortCriteria sortField Cannot be empty")
-	private String sortField = "id";
+	@NotNull(message = "SortCriteria sortField Cannot be empty")
+	private Field sortField = Field.id;
 	
-	@NotBlank(message = "SortCriteria sortOrder cannot be blank")
-	private String sortOrder = "asc";
+	@NotNull(message = "SortCriteria sortOrder cannot be blank")
+	private SortOrder sortOrder = SortOrder.asc;
 	
-
-	public String getSortField() {
+	
+	public Field getSortField() {
 		return sortField;
 	}
 
-	public void setSortField(String sortField) {
+	public void setSortField(Field sortField) {
 		this.sortField = sortField;
 	}
 
-	public String getSortOrder() {
+	public SortOrder getSortOrder() {
 		return sortOrder;
 	}
 
-	public void setSortOrder(String sortOrder) {
+	public void setSortOrder(SortOrder sortOrder) {
 		this.sortOrder = sortOrder;
 	}
 
-	@Override
-	public String toString() {
-		return "SortCriteria [sortField=" + sortField + ", sortOrder=" + sortOrder + "]";
-	}
-	
+
 	
 }
