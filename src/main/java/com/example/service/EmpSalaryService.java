@@ -49,7 +49,12 @@ public class EmpSalaryService {
 
 	@Autowired
 	private CsvHelper csvHelper;
-
+	
+	/**
+	 * Method to process and persist the valid csv data as EmpSalary
+	 * @param file
+	 * @throws FileProcessingException
+	 */
 	public void processAndSaveCsvFile(MultipartFile file) throws FileProcessingException {
 		List<EmpSalaryPojo> empSalaryPojo = csvHelper.csvToEmpSalay(file);
 		checkForDuplicates(empSalaryPojo);
@@ -57,7 +62,13 @@ public class EmpSalaryService {
 		empSalaryRepo.saveAll(empSalaryEntityObj);
 
 	}
-
+	
+	/**
+	 * Method to create/save new employee salary information
+	 * @param empSalary
+	 * @return EmpSalary
+	 * @throws InvalidRequestException
+	 */
 	public EmpSalary createEmpSalaryInfo(EmpSalary empSalary) throws InvalidRequestException {
 		if (checkEmpRecordExistsById(empSalary.getId())) {
 			throw new InvalidRequestException(empIdExistsMsg);
@@ -65,7 +76,12 @@ public class EmpSalaryService {
 			return saveEmpSalaryInfo(empSalary);
 		}
 	}
-
+	
+	/**
+	 * Method to save/update employee salary information
+	 * @param empSalary
+	 * @return
+	 */
 	public EmpSalary saveEmpSalaryInfo(EmpSalary empSalary) {
 		if (checkEmpRecordExistsByLoginNotById(empSalary.getLogin(),empSalary.getId())) {
 			throw new InvalidRequestException(loginIdExistsMsg);
@@ -73,15 +89,29 @@ public class EmpSalaryService {
 			return empSalaryRepo.save(empSalary);
 		}
 	}
-
+	
+	/**
+	 * Method to delete employee salary information
+	 * @param id
+	 */
 	public void deleteEmpSalaryInfo(String id) {
 		empSalaryRepo.deleteById(id);
 	}
-
+	
+	/**
+	 * Method to retrieve specific employee salary information
+	 * @param id
+	 * @return
+	 */
 	public Optional<EmpSalary> getEmpSalaryInfo(String id) {
 		return empSalaryRepo.findById(id);
 	}
-
+	
+	/**
+	 * Method to retrieve all employee salary information based on criteria
+	 * @param recordsCriteria
+	 * @return
+	 */
 	public List<EmpSalary> getAllEmpSalaryInfo(RecordsCriteria recordsCriteria) {
 		List<EmpSalary> empSalaryList = new ArrayList<EmpSalary>();
 		if (recordsCriteria.getLimit() > 0) {
@@ -103,7 +133,7 @@ public class EmpSalaryService {
 		return empSalaryList;
 	}
 
-	public List<EmpSalary> getAsEmpSalaryEntity(List<EmpSalaryPojo> empSalaryPojo) {
+	private List<EmpSalary> getAsEmpSalaryEntity(List<EmpSalaryPojo> empSalaryPojo) {
 		return empSalaryPojo.stream().map(
 				emp -> new EmpSalary(emp.getId(), emp.getLogin(), emp.getName(), emp.getSalary(), emp.getStartDate()))
 				.collect(Collectors.toList());
