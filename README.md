@@ -7,9 +7,15 @@
 
   mvn package
   java -jar target/emp-salary-app.jar
-
-  Alternatively, you can run the app without packaging it using 
+ 
+  or
+  
   ### mvn spring-boot:run
+  
+  or using Dockerfile
+  
+  ### docker build -t emp-salary-app .
+  ### docker run -d -p 8080:8080 emp-salary-app
 
   The application will be listening on port 8080 with h2 DB as default.
 
