@@ -5,8 +5,8 @@
 
 # Build and run the app using maven:
 
-  mvn package
-  java -jar target/emp-salary-app.jar
+  ### mvn package
+  ### java -jar target/emp-salary-app.jar
  
   or
   
@@ -31,33 +31,47 @@
 
 The app defines following CRUD APIs.
 
-## POST /users/upload  - to save employees information from csv
+## POST /users/upload  - to save employees information from csv 
 
-with csv file as request param and sample file should be as below with headers
+eg: endpoint for localhost - > http://localhost:8080/users/upload (POST) with csv file as request param and sample file should be as below with headers
 
 ### id,login,name,salary,startDate
-### e0001a,  testa,Harry Pottera,10.0,16-Nov-01
+### e0001a,testa,Harry Pottera,10.0,16-Nov-01
 
 ## GET /users - Retrieve employees information
 
-with optional request parameters such as 
+eg: endpoint for localhost - > http://localhost:8080/users (GET) with optional request parameters such as 
+
 ### minSalary (should be decimal)
+
 ### maxSalary(should be decimal)
+
 ### offset(starting row/record - should be non negative number)
+
 ### limit (max no of records - should be non negativenumber)
+
 ### sortCriteria.sortOrder (asc or desc) & sortCriteria.sortField (id or name or login or salary or startDate)
-### filterCriteria.key (id or name or login or salary or startDate) & filterCriteria.value (valid value for the field) & filterCriteria.operation (GREATER_THAN or LESS_THAN or GREATER_THAN_EQUAL or LESS_THAN_EQUAL or NOT_EQUAL or EQUAL or MATCH or MATCH_START or MATCH_END)
+
+### filterCriteria.key (id or name or login or salary or startDate) & filterCriteria.value (valid value for the field) & filterCriteria.operation (GREATER_THAN or LESS_THAN or  ###  GREATER_THAN_EQUAL or LESS_THAN_EQUAL or NOT_EQUAL or EQUAL or MATCH or MATCH_START or MATCH_END)
 
 ## POST /users - Create a record
-  with request body containing employee information
+
+eg: endpoint for localhost - > http://localhost:8080/users with request body containing employee information
+
 ### eg: {"id": "id2","name": "name2","login": "login2","salary": 1234.00,"startDate": "2001-11-16"}   
 
 ## GET /users/{$id} - get specific employee information
 
+eg: endpoint for localhost - > http://localhost:8080/users/{$id} (GET)
+
 ## PUT or PATCH /users/{$id} - update specific employee information
-  with request body containing employee information to be updated
-### eg: {"id": "id2","name": "name2updated","login": "login2","salary": 1234.00,"startDate": "2001-11-16"}  
+
+eg: endpoint for localhost - > http://localhost:8080/users/{id} (PUT/PATCH) with request body containing employee information to be updated
+  
+ ### eg: {"id": "id2","name": "name2updated","login": "login2","salary": 1234.00,"startDate": "2001-11-16"}  
 
 ## DELETE /users/{$id} - delete specific employee information
 
-## Can be tested using postman or any other rest client.
+eg: endpoint for localhost - > http://localhost:8080/users/{$id} (DELETE)
+
+# Can be tested using postman or any other rest client.
