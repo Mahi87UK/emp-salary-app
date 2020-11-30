@@ -33,7 +33,7 @@ The app defines following CRUD APIs.
 
 ## POST /users/upload  - to save employees information from csv 
 
-eg: endpoint for localhost to test- > http://localhost:8080/users/upload (POST) with csv file as request param and sample file should be as below with headers
+eg: endpoint for localhost to test- > http://localhost:8080/users/upload (POST) with request param file (csv file to upload) and sample file should be as below with headers
 
  id,login,name,salary,startDate
  
