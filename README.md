@@ -35,8 +35,9 @@ The app defines following CRUD APIs.
 
 eg: endpoint for localhost to test- > http://localhost:8080/users/upload (POST) with csv file as request param and sample file should be as below with headers
 
-### id,login,name,salary,startDate
-### e0001a,testa,Harry Pottera,10.0,16-Nov-01
+ id,login,name,salary,startDate
+ 
+ e0001a,testa,Harry Pottera,10.0,16-Nov-01
 
 ## GET /users - Retrieve employees information
 
@@ -58,7 +59,7 @@ eg: endpoint for localhost to test - > http://localhost:8080/users (GET) with op
 
 eg: endpoint for localhost to test - > http://localhost:8080/users with request body containing employee information
 
-### eg: {"id": "id2","name": "name2","login": "login2","salary": 1234.00,"startDate": "2001-11-16"}   
+ request body sample data: {"id": "id2","name": "name2","login": "login2","salary": 1234.00,"startDate": "2001-11-16"}   
 
 ## GET /users/{$id} - get specific employee information
 
@@ -68,7 +69,7 @@ eg: endpoint for localhost to test - > http://localhost:8080/users/{$id} (GET) (
 
 eg: endpoint for localhost to test - > http://localhost:8080/users/{$id} (PUT/PATCH) with request body containing employee information to be updated ({$id} -> should be actual employee id i.e http://localhost:8080/users/id2)
   
- ### eg: {"id": "id2","name": "name2updated","login": "login2","salary": 1234.00,"startDate": "2001-11-16"}  
+ request body sample data: {"id": "id2","name": "name2updated","login": "login2","salary": 1234.00,"startDate": "2001-11-16"}  
 
 ## DELETE /users/{$id} - delete specific employee information
 
