@@ -29,51 +29,516 @@
 
 # Explore Rest APIs
 
-The app defines following CRUD APIs.
+openapi: 3.0.1
 
-## POST /users/upload  - to save employees information from csv 
+info:
 
-eg: endpoint for localhost to test- > http://localhost:8080/users/upload (POST) with request param file (csv file to upload) and sample file should be as below with headers
-
- id,login,name,salary,startDate
- 
- e0001a,testa,Harry Pottera,10.0,16-Nov-01
-
-## GET /users - Retrieve employees information
-
-eg: endpoint for localhost to test - > http://localhost:8080/users (GET) with optional request parameters such as 
-
- minSalary (should be decimal)
-
- maxSalary(should be decimal)
-
- offset(starting row/record - should be non negative number)
-
- limit (max no of records - should be non negativenumber if not provided will be defaulted 0)
-
- sortCriteria.sortOrder (asc or desc) & sortCriteria.sortField (id or name or login or salary or startDate)
-
- filterCriteria.key (id or name or login or salary or startDate) & filterCriteria.value (valid value for the field) & filterCriteria.operation (GREATER_THAN or LESS_THAN or  ###  GREATER_THAN_EQUAL or LESS_THAN_EQUAL or NOT_EQUAL or EQUAL or MATCH or MATCH_START or MATCH_END)
-
-## POST /users - Create a record
-
-eg: endpoint for localhost to test - > http://localhost:8080/users with request body containing employee information
-
- request body sample data: {"id": "id2","name": "name2","login": "login2","salary": 1234.00,"startDate": "2001-11-16"}   
-
-## GET /users/{$id} - get specific employee information
-
-eg: endpoint for localhost to test - > http://localhost:8080/users/{$id} (GET) ({$id} -> should be actual employee id i.e http://localhost:8080/users/id2)
-
-## PUT or PATCH /users/{$id} - update specific employee information
-
-eg: endpoint for localhost to test - > http://localhost:8080/users/{$id} (PUT/PATCH) with request body containing employee information to be updated ({$id} -> should be actual employee id i.e http://localhost:8080/users/id2)
+  title: Employee Salary App
   
- request body sample data: {"id": "id2","name": "name2updated","login": "login2","salary": 1234.00,"startDate": "2001-11-16"}  
+  description: Employee Salary Management Service
+  
+  version: "1.0"
+  
+servers:
 
-## DELETE /users/{$id} - delete specific employee information
+- url: http://localhost:8080
 
-eg: endpoint for localhost to test - > http://localhost:8080/users/{$id} (DELETE) ({$id} -> should be actual employee id i.e http://localhost:8080/users/id2)
+  description: Generated server url
+  
+paths:
+
+  /users/{id}:
+  
+    get:
+    
+      tags:
+      
+      - emp-salary-controller
+      
+      operationId: getEmpSalaryInfo
+      
+      parameters:
+      
+      - name: id
+      
+        in: path
+        
+        required: true
+        
+        schema:
+        
+          type: string
+          
+      responses:
+      
+        "200":
+        
+          description: OK
+          
+          content:
+          
+            '*/*':
+            
+              schema:
+              
+                type: object
+                
+    put:
+    
+      tags:
+      
+      - emp-salary-controller
+      
+      operationId: updateEmpSalaryInfo
+      
+      parameters:
+      
+      - name: id
+      
+        in: path
+        
+        required: true
+        
+        schema:
+        
+          type: string
+          
+      requestBody:
+      
+        content:
+        
+          application/json:
+          
+            schema:
+            
+              $ref: '#/components/schemas/EmpSalary'
+              
+        required: true
+        
+      responses:
+      
+        "200":
+        
+          description: OK
+          
+          content:
+          
+            '*/*':
+            
+              schema:
+              
+                $ref: '#/components/schemas/ResponseMessage'
+                
+    delete:
+    
+      tags:
+      
+      - emp-salary-controller
+      
+      operationId: deleteEmpSalaryInfo
+      
+      parameters:
+      
+      - name: id
+      
+        in: path
+        
+        required: true
+        
+        schema:
+        
+          type: string
+          
+      responses:
+      
+        "200":
+        
+          description: OK
+          
+          content:
+          
+            '*/*':
+            
+              schema:
+              
+                $ref: '#/components/schemas/ResponseMessage'
+                
+    patch:
+    
+      tags:
+      
+      - emp-salary-controller
+      
+      operationId: updateEmpSalaryInfo_1
+      
+      parameters:
+      
+      - name: id
+      
+        in: path
+        
+        required: true
+        
+        schema:
+        
+          type: string
+          
+      requestBody:
+      
+        content:
+        
+          application/json:
+          
+            schema:
+            
+              $ref: '#/components/schemas/EmpSalary'
+              
+        required: true
+        
+      responses:
+      
+        "200":
+        
+          description: OK
+          
+          content:
+          
+            '*/*':
+            
+              schema:
+              
+                $ref: '#/components/schemas/ResponseMessage'
+                
+  /users:
+  
+    get:
+    
+      tags:
+      
+      - emp-salary-controller
+      
+      operationId: getAllEmpSalaryInfo
+      
+      parameters:
+      
+      - name: recordsCriteria
+      
+        in: query
+        
+        required: true
+        
+        schema:
+        
+          $ref: '#/components/schemas/RecordsCriteria'
+          
+      responses:
+      
+        "200":
+        
+          description: OK
+          
+          content:
+          
+            '*/*':
+            
+              schema:
+              
+                $ref: '#/components/schemas/ResponseMessage'
+                
+    post:
+    
+      tags:
+      
+      - emp-salary-controller
+      
+      operationId: createEmpSalary
+      
+      requestBody:
+      
+        content:
+        
+          application/json:
+          
+            schema:
+            
+              $ref: '#/components/schemas/EmpSalary'
+              
+        required: true
+        
+      responses:
+      
+        "200":
+        
+          description: OK
+          
+          content:
+          
+            '*/*':
+            
+              schema:
+              
+                $ref: '#/components/schemas/ResponseMessage'
+                
+  /users/upload:
+  
+    post:
+    
+      tags:
+      
+      - emp-salary-controller
+      
+      operationId: uploadFile
+      
+      requestBody:
+      
+        content:
+        
+          application/json:
+          
+            schema:
+            
+              type: object
+              
+              properties:
+              
+                file:
+                
+                  type: string
+                  
+                  format: binary
+                  
+      responses:
+      
+        "200":
+        
+          description: OK
+          
+          content:
+          
+            '*/*':
+            
+              schema:
+              
+                type: object
+                
+components:
+
+  schemas:
+  
+    EmpSalary:
+    
+      required:
+      
+      - id
+      
+      - login
+      
+      - name
+      
+      - salary
+      
+      - startDate
+      
+      type: object
+      
+      properties:
+      
+        id:
+        
+          type: string
+          
+        login:
+        
+          type: string
+          
+        name:
+        
+          type: string
+          
+        salary:
+        
+          minimum: 0
+          
+          exclusiveMinimum: false
+          
+          type: number
+          
+          format: double
+          
+        startDate:
+        
+          type: string
+          
+          format: date
+          
+    ResponseMessage:
+    
+      type: object
+      
+      properties:
+      
+        results:
+        
+          type: array
+          
+          items:
+          
+            type: object
+            
+        message:
+        
+          type: string
+          
+    FilterCriteria:
+    
+      required:
+      
+      - key
+      
+      - operation
+      
+      - value
+      
+      type: object
+      
+      properties:
+      
+        key:
+        
+          type: string
+          
+          enum:
+          
+          - id
+          
+          - name
+          
+          - login
+          
+          - salary
+          
+          - startdate
+          
+        value:
+        
+          type: object
+          
+        operation:
+        
+          type: string
+          
+          enum:
+          
+          - GREATER_THAN
+          
+          - LESS_THAN
+          
+          - GREATER_THAN_EQUAL
+          
+          - LESS_THAN_EQUAL
+          
+          - NOT_EQUAL
+          
+          - EQUAL
+          
+          - MATCH
+          
+          - MATCH_START
+          
+          - MATCH_END
+          
+          - IN
+          
+          - NOT_IN
+          
+    RecordsCriteria:
+    
+      type: object
+      
+      properties:
+      
+        minSalary:
+        
+          minimum: 0
+          
+          exclusiveMinimum: false
+          
+          type: number
+          
+          format: double
+          
+        maxSalary:
+        
+          minimum: 0
+          
+          exclusiveMinimum: false
+          
+          type: number
+          
+          format: double
+          
+        offset:
+        
+          minimum: 0
+          
+          type: integer
+          
+          format: int32
+          
+        limit:
+        
+          minimum: 0
+          
+          type: integer
+          
+          format: int32
+          
+        sortCriteria:
+        
+          $ref: '#/components/schemas/SortCriteria'
+          
+        filterCriteria:
+        
+          $ref: '#/components/schemas/FilterCriteria'
+          
+    SortCriteria:
+    
+      required:
+      
+      - sortField
+      
+      - sortOrder
+      
+      type: object
+      
+      properties:
+      
+        sortField:
+        
+          type: string
+          
+          enum:
+          
+          - id
+          
+          - name
+          
+          - login
+          
+          - salary
+          
+          - startdate
+          
+        sortOrder:
+        
+          type: string
+          
+          enum:
+          
+          - asc
+          
+          - desc
+
 
 # Testing
 
