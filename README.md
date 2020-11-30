@@ -43,17 +43,17 @@ eg: endpoint for localhost to test- > http://localhost:8080/users/upload (POST) 
 
 eg: endpoint for localhost to test - > http://localhost:8080/users (GET) with optional request parameters such as 
 
-### minSalary (should be decimal)
+ minSalary (should be decimal)
 
-### maxSalary(should be decimal)
+ maxSalary(should be decimal)
 
-### offset(starting row/record - should be non negative number)
+ offset(starting row/record - should be non negative number)
 
-### limit (max no of records - should be non negativenumber if not provided will be defaulted 0)
+ limit (max no of records - should be non negativenumber if not provided will be defaulted 0)
 
-### sortCriteria.sortOrder (asc or desc) & sortCriteria.sortField (id or name or login or salary or startDate)
+ sortCriteria.sortOrder (asc or desc) & sortCriteria.sortField (id or name or login or salary or startDate)
 
-### filterCriteria.key (id or name or login or salary or startDate) & filterCriteria.value (valid value for the field) & filterCriteria.operation (GREATER_THAN or LESS_THAN or  ###  GREATER_THAN_EQUAL or LESS_THAN_EQUAL or NOT_EQUAL or EQUAL or MATCH or MATCH_START or MATCH_END)
+ filterCriteria.key (id or name or login or salary or startDate) & filterCriteria.value (valid value for the field) & filterCriteria.operation (GREATER_THAN or LESS_THAN or  ###  GREATER_THAN_EQUAL or LESS_THAN_EQUAL or NOT_EQUAL or EQUAL or MATCH or MATCH_START or MATCH_END)
 
 ## POST /users - Create a record
 
