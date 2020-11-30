@@ -75,4 +75,10 @@ eg: endpoint for localhost to test - > http://localhost:8080/users/{$id} (PUT/PA
 
 eg: endpoint for localhost to test - > http://localhost:8080/users/{$id} (DELETE) ({$id} -> should be actual employee id i.e http://localhost:8080/users/id2)
 
-# Can be tested using postman or any other rest client.
+# Testing
+
+Can be tested using swagger ui which can be accessed as /swagger-ui.html 
+
+ ### eg: http://localhost:8080/swagger-ui.html
+ 
+Postman or any rest client can be used as well
